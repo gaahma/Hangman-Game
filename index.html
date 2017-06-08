@@ -3,11 +3,62 @@
 <head>
 	<title>Hangman</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<script type="text/javascript" src="assets/javascript/game.js"></script>
 </head>
 <body>
-	<script type="text/javascript">
-		
+	<div class="container-fluid wrapper">
+	<!-- INSERT NAV BAR HERE..... ya know... if ya think you need one... -->
+		<div class="container content">
+			<div class="center">
+				<p>Press any letter to get started</p>
 
-	</script>
+				<p id="puzzle">
+					
+				</p>
+
+				<p id="guesses-remaining">
+					
+				</p>
+
+				<p id="already-guessed">
+					
+				</p>
+				<script type="text/javascript">
+
+					
+					game.newWord();
+					game.makePuzzle();
+					game.play();
+				</script>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<div class="footer">Copyright 2017 Adam Haag</div>
+	</div>
 </body>
 </html>
