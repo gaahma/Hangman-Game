@@ -14,10 +14,11 @@ html, body {
 
 .content {
 	padding-bottom: 6%;	
+	
 }
 /*Remove when styling begins*/
 .center {
-	padding: 25% 40% 25% 40%;
+	padding-top: 25%;
 	text-align: center;
 }
 
