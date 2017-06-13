@@ -3,14 +3,17 @@
 	Only alphabet letters are accepted into play
 */
 document.onkeyup = function(event){
-	var letter = String.fromCharCode(event.keyCode).toLowerCase();
+	var letter = String.fromCharCode(event.keyCode).toUpperCase();
 	if(isAlphabet(letter)){
 		game.play(letter);
 	}
 }
 
 var game = {
-	wordBank: ["archer", "woodhouse", "malory", "lana", "phrasing", "barry", "tinnitus"],
+	wordBank: ["ARCHER", "WOODHOUSE", "LANA KANE", "PHRASING", "TINNITUS", "DUCHESS", "MALORY ARCHER", 
+			   "CYRIL FIGGIS", "RAY GILLETTE", "DOCTOR KRIEGER", "PAM POOVEY", "CHERYL TUNT",
+			   "STERLING ARCHER", "BARRY DYLAN", "RON CADILLAC", "BURT REYNOLDS", "KATYA KAZANOVA", 
+			   "NIKOLAI JAKOV", "TRINETTE", "RIP RILEY", "LEN TREXLER", "BRETT BUNSEN"],
 	numOfGuesses: 9,
 	puzzle: "",
 	failedLetters: [],
@@ -69,8 +72,14 @@ var game = {
 	makePuzzle: function(){	
 		var newPuzzle = "";
 		for (var i = 0; i < this.word.length; i++){
-			newPuzzle += "_";	
+			if (this.word[i] === " "){
+				
+				newPuzzle += " "; 
+			} else {
+				newPuzzle += "_";	
+			}
 		}
+		console.log(newPuzzle);
 		this.puzzle = newPuzzle;
 	},
 
@@ -82,7 +91,11 @@ var game = {
 	displayPuzzle: function(){
 		var display = "";
 		for (var c in this.puzzle){
-			display = display + this.puzzle[c] + " ";
+			if (this.puzzle[c] === " "){
+				display = display + "&nbsp;" + "&nbsp;" + "&nbsp;"
+			} else {
+				display = display + this.puzzle[c] + " ";
+			}
 		}
 		return display;
 	},
@@ -165,7 +178,7 @@ var game = {
 	of the alphabet
 */
 function isAlphabet(letter){
-	if (letter.match(/[a-z]/i)) {
+	if (letter.match(/[A-Z]/i)) {
     	return true;
 	} else {
 		return false;
