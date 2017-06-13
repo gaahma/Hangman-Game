@@ -1,135 +1,175 @@
-var wordBank = ["archer", "woodhouse", "malory", "lana", "phrasing", "barry", "tinnitus", ];
-var numOfGuesses;
-var puzzle;
-var failedLetters;
-var usedLetters;
-var wins = 0;
-var losses = 0;
-var word;
-
-
-
-
-function reset(){
-	numOfGuesses = 9;
-	usedLetters = [];
-	failedLetters = [];
-	puzzle = "";
-	word = newWord();
-	makePuzzle(word);
+/*
+	Takes the guess from the user, and plays the guess.
+	Only alphabet letters are accepted into play
+*/
+document.onkeyup = function(event){
+	var letter = String.fromCharCode(event.keyCode).toLowerCase();
+	if(isAlphabet(letter)){
+		game.play(letter);
+	}
 }
 
-var Game = {
+var game = {
+	wordBank: ["archer", "woodhouse", "malory", "lana", "phrasing", "barry", "tinnitus"],
+	numOfGuesses: 9,
+	puzzle: "",
+	failedLetters: [],
+	usedLetters: [],
+	wins: 0,
+	losses: 0,
+	word: "",
+
+/*
+	Initializes the game with a word, creates a puzzle,
+	and sends the game to the browser
+*/
 	init: function(){
-		reset();
-		updateBrowser();
-		document.onkeyup = function(event){
-			var letter = String.fromCharCode(event.keyCode).toLowerCase();
-			if (isAlphabetical(letter)){
-				play(letter);
-				updateBrowser();
+		this.newWord();
+		this.makePuzzle();
+		this.updateBrowser();
+
+	},
+/*
+	Takes a user guess, and puts it into play
+*/	
+	play: function(letter){
+		if (this.letterUnused(letter)){			//if letter hasn't been guessed already
+			if (this.hasLetter(letter)){			//and if the word contains the letter...
+				this.updatePuzzle(letter);				//update the game puzzle
+				this.usedLetters.push(letter);			//add the letter to the usedLetters array
+			} else {								//otherwise
+				this.failedLetters.push(letter);		//add the letter to failedLetters array
+				this.numOfGuesses--;					//decrement the number of guesses remaining
+				if (this.numOfGuesses === 0){				//if the guesses is now 0, the round is over..
+					this.losses++;								//increase the loss counter
+					this.reset();								//reset the game with a new word
+				}
+			}
+			if(this.puzzle === this.word){		//if the puzzle === word, it has been solved...
+				this.wins++;						//increment the win counter
+				this.reset();						//reset the game with a new word
+			}
+			this.updateBrowser();
+		}
+	},
+
+/*
+	Selects a random word from the wordBank 
+*/
+	newWord: function(){
+		var index = Math.floor(Math.random() * this.wordBank.length);
+		var newWord = this.wordBank[index];
+		this.word = newWord;
+		console.log("Word selected: " + this.word);
+	},
+/*
+	Creates a string of underscores the same length as 
+	the word in play.
+*/
+	makePuzzle: function(){	
+		var newPuzzle = "";
+		for (var i = 0; i < this.word.length; i++){
+			newPuzzle += "_";	
+		}
+		this.puzzle = newPuzzle;
+	},
+
+/*
+	Although displayed to the user with spaces between each character,
+	the puzzle variable isn't actually stored that way.  
+	This function adds white space for readability. 
+*/
+	displayPuzzle: function(){
+		var display = "";
+		for (var c in this.puzzle){
+			display = display + this.puzzle[c] + " ";
+		}
+		return display;
+	},
+/*
+	When a correct guess has been made, this function adds the
+	letter to the puzzle, while retaining any previous correct
+	guesses.
+*/
+	updatePuzzle(letter){
+		var updatedPuzzle = "";
+		for (var i = 0; i < this.word.length; i++){
+			if (this.word[i] === this.puzzle[i]){  				//if a letter is already placed in the puzzle...
+				updatedPuzzle = updatedPuzzle + this.puzzle[i];		//keep it in place	
+			} else if(this.word[i] === letter){					//else if the guess belongs at a certain index...
+				updatedPuzzle = updatedPuzzle + letter;				//place it at that index
+			} else {
+				updatedPuzzle = updatedPuzzle + "_";			//otherwise, use "_" as a placeholder 
 			}
 		}
-	}
-}
-
-function play(letter){
-	if (letterUnused(letter)){
-		if (hasLetter(word, letter)){
-			updatePuzzle(letter, word);
-			usedLetters.push(letter);
+		this.puzzle = updatedPuzzle;							//update the puzzle variable
+	},
+/*
+	The name says it all... update the browser!
+*/
+	updateBrowser: function(){
+		document.querySelector("#puzzle").innerHTML = this.displayPuzzle();
+		document.querySelector("#guesses-remaining").innerHTML = this.numOfGuesses + " guesses left";
+		document.querySelector("#failed-guesses").innerHTML = this.failedLettersString();
+		document.querySelector("#wins").innerHTML = "Wins: " + this.wins;
+		document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
+	},
+/*
+	Converts the array of incorrect guesses into
+	an easy to read string.  toUpperCase() only for
+	readability
+*/
+	failedLettersString: function(){
+		var str = "";
+		for (var c in this.failedLetters){
+			str = str + this.failedLetters[c].toUpperCase() + " ";
+		}
+		return str;
+	},
+/*
+	Verifies that the guessed letter has not been played yet 
+*/
+	letterUnused: function(letter){
+		if (this.usedLetters.includes(letter) || this.failedLetters.includes(letter)){
+			return false;
 		} else {
-			failedLetters.push(letter);
-			numOfGuesses--;
-			if (numOfGuesses === 0){
-				losses++;
-				reset();
-			}
+			return true;
 		}
-		if(puzzle === word){
-			wins++;
-			reset();
-		}
-	}
-}
-
-function newWord(){
-	var word = wordBank[Math.floor(Math.random() * wordBank.length)];
-	console.log("Word selected: " + word);
-	return word;
-}
-
-function makePuzzle(word){	
-	for (var i = 0; i < word.length; i++){
-		puzzle += "_";	
-	}
-}
-
-function hasLetter(word, guess){
-	word = word.toLowerCase();
-	if (word.indexOf(guess) > -1){
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function updatePuzzle(letter, word){
-	var updatedPuzzle = "";
-	for (var i = 0; i < word.length; i++){
-		if (word[i] === puzzle[i]){
-			updatedPuzzle = updatedPuzzle + puzzle[i];
-		} else if(word[i] === letter){
-			updatedPuzzle = updatedPuzzle + letter;
+	},
+/*
+	Checks whether or not the user's guess in actually in the word
+*/
+	hasLetter: function(guess){
+		if (this.word.includes(guess)){
+			return true;
 		} else {
-			updatedPuzzle = updatedPuzzle + "_";
+			return false;
 		}
-	}
-	puzzle = updatedPuzzle;
-}
-
-function displayPuzzle(){
-	var display = "";
-	for (var c in puzzle){
-		display = display + puzzle[c] + " ";
-	}
-	return display;
-
-}
-
-function letterUnused(letter){
-	if (usedLetters.includes(letter) || failedLetters.includes(letter)){
-		return false;
-	} else {
-		return true;
+	},
+/*
+	Resets all the game variables (except wins and losses)
+	so that another word can be played.
+*/
+	reset: function(){
+		this.numOfGuesses = 9;
+		this.usedLetters = [];
+		this.failedLetters = [];
+		this.puzzle = "";  //Needs to be an emptry string for makePuzzle() to do it's work
+		this.newWord();
+		this.makePuzzle();
 	}
 }
 
-function failedLettersString(){
-	var str = "";
-	for (var c in failedLetters){
-		str = str + failedLetters[c];
-	}
-	return str;
-}
-
-function updateBrowser(){
-	document.querySelector("#puzzle").innerHTML = displayPuzzle();
-	document.querySelector("#guesses-remaining").innerHTML = numOfGuesses + " guesses left";
-	document.querySelector("#failed-guesses").innerHTML = failedLettersString();
-	document.querySelector("#wins").innerHTML = "Wins: " + wins;
-	document.querySelector("#losses").innerHTML = "Losses: " + losses;
-}
-
-function isAlphabetical(str){
-	if (str.match(/[a-z]/i)) {
+/*
+	This function checks whether a character is a letter
+	of the alphabet
+*/
+function isAlphabet(letter){
+	if (letter.match(/[a-z]/i)) {
     	return true;
+	} else {
+		return false;
 	}
-	return false;
 }
-
-
-
- 
 
 
