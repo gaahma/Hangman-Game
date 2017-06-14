@@ -3,17 +3,29 @@
 	Only alphabet letters are accepted into play
 */
 document.onkeyup = function(event){
-	var letter = String.fromCharCode(event.keyCode).toUpperCase();
+	var letter = String.fromCharCode(event.keyCode).toLowerCase();
 	if(isAlphabet(letter)){
 		game.play(letter);
 	}
 }
 
+/*
+	This function checks whether a character is a letter
+	of the alphabet
+*/
+function isAlphabet(letter){
+	if (letter.match(/[A-Z]/i)) {
+    	return true;
+	} else {
+		return false;
+	}
+}
+
 var game = {
-	wordBank: ["ARCHER", "WOODHOUSE", "LANA KANE", "PHRASING", "TINNITUS", "DUCHESS", "MALORY ARCHER", 
-			   "CYRIL FIGGIS", "RAY GILLETTE", "DOCTOR KRIEGER", "PAM POOVEY", "CHERYL TUNT",
-			   "STERLING ARCHER", "BARRY DYLAN", "RON CADILLAC", "BURT REYNOLDS", "KATYA KAZANOVA", 
-			   "NIKOLAI JAKOV", "TRINETTE", "RIP RILEY", "LEN TREXLER", "BRETT BUNSEN"],
+	wordBank: ["archer", "woodhouse", "lana kane", "phrasing", "tinnitus", "duchess", "malory archer", 
+			   "cyril figgis", "ray gillette", "dr krieger", "pam poovey", "cheryl tunt",
+			   "sterling", "barry dylan", "ron cadillac", "burt reynolds", "katya kazanova", 
+			   "nikolai jakov", "trinette", "rip riley", "len trexler", "brett bunsen", "danger zone",],
 	winBank: [],
 	numOfGuesses: 9,
 	puzzle: "",
@@ -51,6 +63,7 @@ var game = {
 			}
 			if(this.puzzle === this.word){		//if the puzzle = word, it has been solved...
 				this.wins++;						//increment the win counter
+				this.addToWinList(this.word);		//add the word to the list of wins on the side
 				this.reset();						//reset the game with a new word
 			}
 			this.updateBrowser();				//updateBrowswer() only gets called if the letter had
@@ -125,17 +138,16 @@ var game = {
 		document.querySelector("#guesses-remaining").innerHTML = "Guesses remaining: " + this.numOfGuesses;
 		document.querySelector("#failed-guesses").innerHTML = this.failedLettersString();
 		document.querySelector("#wins").innerHTML = "Wins: " + this.wins;
-		//document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
+		document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
 	},
 /*
 	Converts the array of incorrect guesses into
-	an easy to read string.  toUpperCase() for
-	readability
+	an easy to read string. 
 */
 	failedLettersString: function(){
 		var str = "";
 		for (var c in this.failedLetters){
-			str = str + this.failedLetters[c].toUpperCase() + " ";
+			str = str + this.failedLetters[c] + " ";
 		}
 		return str;
 	},
@@ -170,19 +182,17 @@ var game = {
 		this.puzzle = "";  //Needs to be an emptry string for makePuzzle() to do it's work
 		this.newWord();
 		this.makePuzzle();
+	},
+
+	addToWinList: function(word){
+		var currentList = document.getElementById("win-list");
+		var newWin = document.createElement("p");
+		newWin.innerHTML = word;
+		currentList.insertBefore(newWin, currentList.firstChild);
+
 	}
 }
 
-/*
-	This function checks whether a character is a letter
-	of the alphabet
-*/
-function isAlphabet(letter){
-	if (letter.match(/[A-Z]/i)) {
-    	return true;
-	} else {
-		return false;
-	}
-}
+
 
 
