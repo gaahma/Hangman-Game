@@ -125,7 +125,7 @@ var game = {
 		document.querySelector("#guesses-remaining").innerHTML = "Guesses remaining: " + this.numOfGuesses;
 		document.querySelector("#failed-guesses").innerHTML = this.failedLettersString();
 		document.querySelector("#wins").innerHTML = "Wins: " + this.wins;
-		document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
+		//document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
 	},
 /*
 	Converts the array of incorrect guesses into

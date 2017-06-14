@@ -1,8 +1,14 @@
+@font-face {
+    font-family:"baveuse";
+    src: url("baveuse.ttf") /* TTF file for CSS3 browsers */
+}
+
+
 html, body {
 	height: 100%;
 	padding: 0;
 	margin: 0;
-	font-family: "Slackey", cursive;
+	font-family: "baveuse", cursive;
 	font-size: x-large;
 	background-color: #222;
 	color: #ff8e33;
@@ -28,7 +34,7 @@ html, body {
 }
 
 .footer {
- 	color: #fff;
+ 	color: #ff8e33;
 	padding: 2%; 
 	width: 100%;
 	background-color: #222;	
