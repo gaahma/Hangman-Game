@@ -8,10 +8,10 @@ html, body {
 	height: 100%;
 	padding: 0;
 	margin: 0;
-	font-family: "baveuse", cursive;
+	font-family: "baveuse", serif;
 	font-size: x-large;
 	background-color: #222;
-	color: #fff;
+	color: #accdd9;
 }
 
 .banner, .banner-img {

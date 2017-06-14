@@ -92,7 +92,6 @@ var game = {
 				newPuzzle += "_";			//otherwise substitute "_"
 			}
 		}
-		console.log(newPuzzle);
 		this.puzzle = newPuzzle;
 	},
 
