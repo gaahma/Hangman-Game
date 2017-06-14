@@ -1,8 +1,7 @@
 @font-face {
     font-family:"baveuse";
-    src: url("baveuse.ttf") /* TTF file for CSS3 browsers */
+    src: url("baveuse.ttf") 
 }
-
 
 html, body {
 	height: 100%;
@@ -10,13 +9,12 @@ html, body {
 	margin: 0;
 	font-family: "baveuse", serif;
 	font-size: x-large;
-	background-color: #262525;
+	background-color: #100;
 	color: #accdd9;
 }
 
-.banner, .banner-img {
+.banner-img {
 	width: 100%;
-
 }
 
 .wrapper {
@@ -29,13 +27,7 @@ html, body {
 
 .content {
 	margin-top: 5%;
-	padding-bottom: 6%;	
-	
-}
-
-.border {
-	border-style: solid;
-	border-color: #fff;
+	padding-bottom: 6%;		
 }
 
 .footer {
@@ -44,7 +36,7 @@ html, body {
 	width: 100%;
 	background-color: #0f1b3b;	
 	border-top: solid;
-	border-top-color: #0f1b3b;
+	border-top-color: #6da9bc;
 	color: #accdd9;
 	text-align: center;
 	position: absolute;

@@ -127,7 +127,7 @@ var game = {
 /*
 	When a correct guess has been made, this function adds the
 	letter to the puzzle, while retaining any previous correct
-	guesses.
+	guesses.  It also preserves spaces
 */
 	updatePuzzle(letter){
 		var updatedPuzzle = "";

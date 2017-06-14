@@ -1,59 +1,37 @@
 <!DOCTYPE html>
 <html lang = "en-us">
 <head>
-	<title>Hangman</title>
+	<title>Archer Hangman</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<script type="text/javascript" src="assets/javascript/game.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 	<div class="container-fluid wrapper">
-		<div class="banner">
-			<img src="assets/images/archer-hero-banner.jpg" alt="" class="banner-img img-responsive">
-		</div>
-	<!-- INSERT NAV BAR HERE..... ya know... if ya think you need one... -->
+		<img src="assets/images/archer-hero-banner.jpg" alt="" class="img-responsive banner-img">
 		<div class="container content">
 			<div class="row">
-				<div class="col-xs-12" id="wins">
-
-				</div>
-			</div>
-			
+				<div class="col-xs-4" id="wins"></div>
+				<div class="col-xs-8" id="puzzle"></div>
+			</div>	
 			<div class="row">
-
-				<div class="col-xs-4" id="win-list">
-					
+				<div class="col-xs-4" id="win-list"></div>
+				<div class="col-xs-4 content">
+					<p id="guesses-remaining"></p>
+					<p id="failed-guesses"></p>
+					<p id="losses"></p>
 				</div>
-				<div class="col-xs-6">
-					<p id="puzzle">
-						
-					</p>
-
-					<p id="guesses-remaining">
-						
-					</p>
-
-					<p id="failed-guesses">
-						
-					</p>
-
-					<p id="losses">
-
-					</p>
-
-
+				<div class="col-xs-4">
+					<img src="assets/images/archer2.png" class="img-responsive" alt="archer silhouette">
 				</div>
 			</div>
 		</div>
-		<!--The font I'm using is actually from the show, and is licensed-->
+		<!--The font I'm using is actually from the show, and is licensed so...-->
 		<div class="footer">for education purposes only</div> 
-
 	</div>
 	<script type="text/javascript">
 		game.init();
 	</script>
-	
 </body>
 </html>
