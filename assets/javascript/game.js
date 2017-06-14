@@ -4,7 +4,6 @@
 */
 document.onkeyup = function(event){
 	var letter = String.fromCharCode(event.keyCode).toLowerCase();
-	console.log("game over? " + game.gameOver);
 	if(isAlphabet(letter) && game.gameOver === false){
 		game.play(letter);
 	}
@@ -26,7 +25,8 @@ var game = {
 	wordBank: ["archer", "woodhouse", "lana kane", "phrasing", "tinnitus", "duchess", "malory archer", 
 			   "cyril figgis", "ray gillette", "dr krieger", "pam poovey", "cheryl tunt",
 			   "sterling", "barry dylan", "ron cadillac", "burt reynolds", "katya kazanova", 
-			   "nikolai jakov", "trinette", "rip riley", "len trexler", "brett bunsen", "danger zone",],
+			   "nikolai jakov", "trinette", "rip riley", "len trexler", "brett bunsen", "danger zone", 
+			   "chet manley", "lacrosse", "conway stern"],
 	numOfGuesses: 9,
 	puzzle: "",
 	failedLetters: [],
@@ -59,7 +59,7 @@ var game = {
 				this.numOfGuesses--;					//decrement the number of guesses remaining
 				if (this.numOfGuesses === 0){				//if the guesses is now 0, the round is over..
 					this.losses++;								//increase the loss counter
-					if (this.gameIsOver()){
+					if (this.gameIsOver()){						//check whether or not the game has ended
 						this.endGame();
 						return;
 					} else{
@@ -71,13 +71,13 @@ var game = {
 			if(this.puzzle === this.word){		//if the puzzle = word, it has been solved...
 				this.wins++;						//increment the win counter
 				this.addToWinList(this.word);		//add the word to the list of wins on the side of page
-				if (this.gameIsOver()){
+				if (this.gameIsOver()){				//check whether or not the game has ended
 					this.endGame();
 					return;
 				} else {
 					this.removeFromWordBank(this.word);	//remove from wordBank
-					this.reset();
-				}						//reset the game with a new word
+					this.reset();						//reset the game with a new word
+				}						
 			}
 			this.updateBrowser();				//updateBrowswer() only gets called if the letter had
 		}										//not been previously played
@@ -195,7 +195,10 @@ var game = {
 		this.newWord();
 		this.makePuzzle();
 	},
-
+/*
+	If a puzzle is solved, add the word to beginning of
+	the win-list div
+*/
 	addToWinList: function(word){
 		var currentList = document.getElementById("win-list");
 		var newWin = document.createElement("p");
@@ -213,16 +216,21 @@ var game = {
 			this.wordBank.splice(index, 1);
 		}
 	},
-
+/*
+	Determines if the game has reached the end of wordBank
+*/
 	gameIsOver: function(){
-		if(this.wordBank.length === 1){
-			this.gameOver = true;
+		if(this.wordBank.length === 1){	//if 1, then the game is currently playing the last word
+			this.gameOver = true;		//end the game
 			return true;
 		} else {
 			return false;
 		}
 	},
-
+/*
+	Displays final game info to user.  I decided to recycle
+	the ids rather than generating new html for this.  
+*/
 	endGame: function(){
 		var totalWords = this.wins + this.losses;
 		var score = "Score: " + this.wins + " / " + totalWords;
