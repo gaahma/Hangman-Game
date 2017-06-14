@@ -14,6 +14,7 @@ var game = {
 			   "CYRIL FIGGIS", "RAY GILLETTE", "DOCTOR KRIEGER", "PAM POOVEY", "CHERYL TUNT",
 			   "STERLING ARCHER", "BARRY DYLAN", "RON CADILLAC", "BURT REYNOLDS", "KATYA KAZANOVA", 
 			   "NIKOLAI JAKOV", "TRINETTE", "RIP RILEY", "LEN TREXLER", "BRETT BUNSEN"],
+	winBank: [],
 	numOfGuesses: 9,
 	puzzle: "",
 	failedLetters: [],
@@ -48,12 +49,12 @@ var game = {
 					this.reset();								//reset the game with a new word
 				}
 			}
-			if(this.puzzle === this.word){		//if the puzzle === word, it has been solved...
+			if(this.puzzle === this.word){		//if the puzzle = word, it has been solved...
 				this.wins++;						//increment the win counter
 				this.reset();						//reset the game with a new word
 			}
-			this.updateBrowser();
-		}
+			this.updateBrowser();				//updateBrowswer() only gets called if the letter had
+		}										//not been previously used
 	},
 
 /*
@@ -72,11 +73,10 @@ var game = {
 	makePuzzle: function(){	
 		var newPuzzle = "";
 		for (var i = 0; i < this.word.length; i++){
-			if (this.word[i] === " "){
-				
-				newPuzzle += " "; 
+			if (this.word[i] === " "){ 		//if a character is a space..
+				newPuzzle += " "; 			//keep it in place
 			} else {
-				newPuzzle += "_";	
+				newPuzzle += "_";			//otherwise substitute "_"
 			}
 		}
 		console.log(newPuzzle);
@@ -92,8 +92,8 @@ var game = {
 		var display = "";
 		for (var c in this.puzzle){
 			if (this.puzzle[c] === " "){
-				display = display + "&nbsp;" + "&nbsp;" + "&nbsp;"
-			} else {
+				display = display + "&nbsp;" + "&nbsp;" + "&nbsp;"  //would have thought display + "  " would work
+			} else {												//but it doesn't.. ¯\_(ツ)_/¯
 				display = display + this.puzzle[c] + " ";
 			}
 		}
@@ -122,14 +122,14 @@ var game = {
 */
 	updateBrowser: function(){
 		document.querySelector("#puzzle").innerHTML = this.displayPuzzle();
-		document.querySelector("#guesses-remaining").innerHTML = this.numOfGuesses + " guesses left";
+		document.querySelector("#guesses-remaining").innerHTML = "Guesses remaining: " + this.numOfGuesses;
 		document.querySelector("#failed-guesses").innerHTML = this.failedLettersString();
 		document.querySelector("#wins").innerHTML = "Wins: " + this.wins;
 		document.querySelector("#losses").innerHTML = "Losses: " + this.losses;
 	},
 /*
 	Converts the array of incorrect guesses into
-	an easy to read string.  toUpperCase() only for
+	an easy to read string.  toUpperCase() for
 	readability
 */
 	failedLettersString: function(){

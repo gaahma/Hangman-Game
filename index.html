@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en-us">
 <head>
 	<title>Hangman</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<!--<script type="text/javascript" src="assets/javascript/game.js"></script>-->
 	<script type="text/javascript" src="assets/javascript/game.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 	<div class="container-fluid wrapper">
+		<div class="banner">
+			<img src="assets/images/banner.jpg" alt="" class="banner-img img-responsive">
+		</div>
 	<!-- INSERT NAV BAR HERE..... ya know... if ya think you need one... -->
 		<div class="container content">
+			<div class="row">
+				<div class="col-xs-4 text-center" id="wins">
+					<div id="win-list"></div>
+				</div>
+
+				<div class="col-xs-8">
+					<p id="puzzle">
+						
+					</p>
+
+					<p id="guesses-remaining">
+						
+					</p>
+
+					<p id="failed-guesses">
+						
+					</p>
+
+				</div>
+			</div>
+		</div>
+		<!--<div class="footer">Copyright 2017 Adam Haag</div>-->
+	</div>
+	<script type="text/javascript">
+		game.init();
+	</script>
+</body>
+</html>
+
+
+<!--
+
 			<div class="center">
 				<p>Press any letter to get started</p>
 
@@ -34,12 +69,7 @@
 				<p id="losses">
 
 				</p>
-				<script type="text/javascript">
-					game.init();
-				</script>
+
 			</div>
-		</div>
-		<div class="footer">Copyright 2017 Adam Haag</div>
-	</div>
-</body>
-</html>
+
+			-->
