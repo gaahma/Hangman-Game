@@ -10,7 +10,7 @@ html, body {
 	margin: 0;
 	font-family: "baveuse", serif;
 	font-size: x-large;
-	background-color: #222;
+	background-color: #262525;
 	color: #accdd9;
 }
 
@@ -42,7 +42,10 @@ html, body {
 	font-size: small;
 	padding: 2%; 
 	width: 100%;
-	background-color: #222;	
+	background-color: #0f1b3b;	
+	border-top: solid;
+	border-top-color: #0f1b3b;
+	color: #accdd9;
 	text-align: center;
 	position: absolute;
 	left: 0;

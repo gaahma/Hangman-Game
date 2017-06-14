@@ -4,7 +4,8 @@
 */
 document.onkeyup = function(event){
 	var letter = String.fromCharCode(event.keyCode).toLowerCase();
-	if(isAlphabet(letter)){
+	console.log("game over? " + game.gameOver);
+	if(isAlphabet(letter) && game.gameOver === false){
 		game.play(letter);
 	}
 }
@@ -14,7 +15,7 @@ document.onkeyup = function(event){
 	of the alphabet
 */
 function isAlphabet(letter){
-	if (letter.match(/[A-Z]/i)) {
+	if (letter.match(/[a-z]/i)) {
     	return true;
 	} else {
 		return false;
@@ -26,7 +27,6 @@ var game = {
 			   "cyril figgis", "ray gillette", "dr krieger", "pam poovey", "cheryl tunt",
 			   "sterling", "barry dylan", "ron cadillac", "burt reynolds", "katya kazanova", 
 			   "nikolai jakov", "trinette", "rip riley", "len trexler", "brett bunsen", "danger zone",],
-	winBank: [],
 	numOfGuesses: 9,
 	puzzle: "",
 	failedLetters: [],
@@ -34,6 +34,7 @@ var game = {
 	wins: 0,
 	losses: 0,
 	word: "",
+	gameOver: false,
 
 /*
 	Initializes the game with a word, creates a puzzle,
@@ -58,16 +59,28 @@ var game = {
 				this.numOfGuesses--;					//decrement the number of guesses remaining
 				if (this.numOfGuesses === 0){				//if the guesses is now 0, the round is over..
 					this.losses++;								//increase the loss counter
-					this.reset();								//reset the game with a new word
+					if (this.gameIsOver()){
+						this.endGame();
+						return;
+					} else{
+						this.removeFromWordBank(this.word);			//remove from wordBank
+						this.reset();								//reset the game with a new word
+					}
 				}
 			}
 			if(this.puzzle === this.word){		//if the puzzle = word, it has been solved...
 				this.wins++;						//increment the win counter
-				this.addToWinList(this.word);		//add the word to the list of wins on the side
-				this.reset();						//reset the game with a new word
+				this.addToWinList(this.word);		//add the word to the list of wins on the side of page
+				if (this.gameIsOver()){
+					this.endGame();
+					return;
+				} else {
+					this.removeFromWordBank(this.word);	//remove from wordBank
+					this.reset();
+				}						//reset the game with a new word
 			}
 			this.updateBrowser();				//updateBrowswer() only gets called if the letter had
-		}										//not been previously used
+		}										//not been previously played
 	},
 
 /*
@@ -188,6 +201,36 @@ var game = {
 		var newWin = document.createElement("p");
 		newWin.innerHTML = word;
 		currentList.insertBefore(newWin, currentList.firstChild);
+
+	},
+/*
+	The name says it all... removes a word from the word bank 
+	so the user doesn't get any duplicate words in the same game
+*/
+	removeFromWordBank: function(word){
+		var index = this.wordBank.indexOf(word);
+		if (index > -1){
+			this.wordBank.splice(index, 1);
+		}
+	},
+
+	gameIsOver: function(){
+		if(this.wordBank.length === 1){
+			this.gameOver = true;
+			return true;
+		} else {
+			return false;
+		}
+	},
+
+	endGame: function(){
+		var totalWords = this.wins + this.losses;
+		var score = "Score: " + this.wins + " / " + totalWords;
+		document.querySelector("#wins").innerHTML = "Wins: " + this.wins;
+		document.querySelector("#puzzle").innerHTML = "game over";
+		document.querySelector("#guesses-remaining").innerHTML = score;
+		document.querySelector("#failed-guesses").innerHTML = "refresh page to play again";
+		document.querySelector("#losses").innerHTML = "";
 
 	}
 }
