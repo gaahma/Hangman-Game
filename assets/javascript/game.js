@@ -11,14 +11,10 @@ document.onkeyup = function(event){
 
 /*
 	This function checks whether a character is a letter
-	of the alphabet
+	of the alphabet.  Put this into a function for readability
 */
 function isAlphabet(letter){
-	if (letter.match(/[a-z]/i)) {
-    	return true;
-	} else {
-		return false;
-	}
+	return (letter.match(/[a-z]/i));
 }
 
 var game = {
@@ -27,7 +23,7 @@ var game = {
 			   "sterling", "barry dylan", "ron cadillac", "burt reynolds", "katya kazanova", 
 			   "nikolai jakov", "trinette", "rip riley", "len trexler", "brett bunsen", "danger zone", 
 			   "chet manley", "lacrosse", "conway stern"],
-	numOfGuesses: 9,
+	numOfGuesses: 7,
 	puzzle: "",
 	failedLetters: [],
 	usedLetters: [],
@@ -44,43 +40,48 @@ var game = {
 		this.newWord();
 		this.makePuzzle();
 		this.updateBrowser();
-
 	},
 /*
 	Takes a user guess, and puts it into play
 */	
 	play: function(letter){
+		var sound;
 		if (this.letterUnused(letter)){			//if letter hasn't been guessed already
 			if (this.hasLetter(letter)){			//and if the word contains the letter...
 				this.updatePuzzle(letter);				//update the game puzzle
 				this.usedLetters.push(letter);			//add the letter to the usedLetters array
+				sound = "bwoop";
 			} else {								//otherwise
 				this.failedLetters.push(letter);		//add the letter to failedLetters array
 				this.numOfGuesses--;					//decrement the number of guesses remaining
+				sound = "noop";
 				if (this.numOfGuesses === 0){				//if the guesses is now 0, the round is over..
 					this.losses++;								//increase the loss counter
 					if (this.gameIsOver()){						//check whether or not the game has ended
 						this.endGame();
 						return;
-					} else{
+					} else {
 						this.removeFromWordBank(this.word);			//remove from wordBank
 						this.reset();								//reset the game with a new word
+						sound = "no";
 					}
 				}
 			}
 			if(this.puzzle === this.word){		//if the puzzle = word, it has been solved...
 				this.wins++;						//increment the win counter
 				this.addToWinList(this.word);		//add the word to the list of wins on the side of page
+				sound = "winner";
 				if (this.gameIsOver()){				//check whether or not the game has ended
 					this.endGame();
 					return;
 				} else {
 					this.removeFromWordBank(this.word);	//remove from wordBank
 					this.reset();						//reset the game with a new word
-				}						
+				}	
 			}
-			this.updateBrowser();				//updateBrowswer() only gets called if the letter had
-		}										//not been previously played
+			this.updateBrowser();	//updateBrowser and playSound get called last, and only if a
+			this.playSound(sound);	//new letter was put into play
+		}									
 	},
 
 /*
@@ -177,18 +178,14 @@ var game = {
 	Checks whether or not the user's guess in actually in the word
 */
 	hasLetter: function(guess){
-		if (this.word.includes(guess)){
-			return true;
-		} else {
-			return false;
-		}
+		return (this.word.includes(guess));
 	},
 /*
 	Resets all the game variables (except wins and losses)
 	so that another word can be played.
 */
 	reset: function(){
-		this.numOfGuesses = 9;
+		this.numOfGuesses = 7;
 		this.usedLetters = [];
 		this.failedLetters = [];
 		this.puzzle = "";  //Needs to be an emptry string for makePuzzle() to do it's work
@@ -204,7 +201,6 @@ var game = {
 		var newWin = document.createElement("p");
 		newWin.innerHTML = word;
 		currentList.insertBefore(newWin, currentList.firstChild);
-
 	},
 /*
 	The name says it all... removes a word from the word bank 
@@ -239,7 +235,29 @@ var game = {
 		document.querySelector("#guesses-remaining").innerHTML = score;
 		document.querySelector("#failed-guesses").innerHTML = "refresh page to play again";
 		document.querySelector("#losses").innerHTML = "";
+		this.playSound("game over");
 
+	},
+
+	playSound(sound){
+		console.log("reached");
+		switch(sound){
+			case "bwoop":
+				new Audio("assets/sounds/bwoop.mp3").play();
+				break;
+			case "noop":
+				new Audio("assets/sounds/noop.mp3").play();	
+				break;
+			case "game over":
+				new Audio("assets/sounds/game-over2.mp3").play();
+				break;	
+			case "winner":
+				new Audio("assets/sounds/winner.mp3").play();
+				break;
+			case "no":
+				new Audio("assets/sounds/no.mp3").play();
+				break;
+		}
 	}
 }
 
