@@ -8,7 +8,6 @@ document.onkeyup = function(event){
 		game.play(letter);
 	}
 }
-
 /*
 	This function checks whether a character is a letter
 	of the alphabet.  Put this into a function for readability
@@ -242,7 +241,6 @@ var game = {
 	Plays the appropriate sound, depending on what string is passed
 */
 	playSound(sound){
-		console.log("reached");
 		switch(sound){
 			case "bwoop":
 				new Audio("assets/sounds/bwoop.mp3").play();
