@@ -54,15 +54,14 @@ var game = {
 			} else {								//otherwise
 				this.failedLetters.push(letter);		//add the letter to failedLetters array
 				this.numOfGuesses--;					//decrement the number of guesses remaining
-				sound = "noop";
+				sound = "noop";							
 				if (this.numOfGuesses === 0){				//if the guesses is now 0, the round is over..
 					this.losses++;								//increase the loss counter
 					if (this.gameIsOver()){						//check whether or not the game has ended
 						this.endGame();
 						return;
 					} else {
-						this.removeFromWordBank(this.word);			//remove from wordBank
-						this.reset();								//reset the game with a new word
+						this.reset();							//reset the game with a new word
 						sound = "no";
 					}
 				}
@@ -71,16 +70,15 @@ var game = {
 				this.wins++;						//increment the win counter
 				this.addToWinList(this.word);		//add the word to the list of wins on the side of page
 				sound = "winner";
-				if (this.gameIsOver()){				//check whether or not the game has ended
-					this.endGame();
+				if (this.gameIsOver()){				//if the game has ended
+					this.endGame();						//run endGame to display game over screen	
 					return;
 				} else {
-					this.removeFromWordBank(this.word);	//remove from wordBank
 					this.reset();						//reset the game with a new word
 				}	
 			}
 			this.updateBrowser();	//updateBrowser and playSound get called last, and only if a
-			this.playSound(sound);	//new letter was put into play
+			this.playSound(sound);	//new letter was put into play (letterUsed())
 		}									
 	},
 
@@ -175,7 +173,8 @@ var game = {
 		}
 	},
 /*
-	Checks whether or not the user's guess in actually in the word
+	Checks whether or not the user's guess in actually in the word.
+	Returns true or false
 */
 	hasLetter: function(guess){
 		return (this.word.includes(guess));
@@ -189,6 +188,7 @@ var game = {
 		this.usedLetters = [];
 		this.failedLetters = [];
 		this.puzzle = "";  //Needs to be an emptry string for makePuzzle() to do it's work
+		this.removeFromWordBank(this.word);
 		this.newWord();
 		this.makePuzzle();
 	},
@@ -238,7 +238,9 @@ var game = {
 		this.playSound("game over");
 
 	},
-
+/*
+	Plays the appropriate sound, depending on what string is passed
+*/
 	playSound(sound){
 		console.log("reached");
 		switch(sound){
@@ -249,7 +251,7 @@ var game = {
 				new Audio("assets/sounds/noop.mp3").play();	
 				break;
 			case "game over":
-				new Audio("assets/sounds/game-over2.mp3").play();
+				new Audio("assets/sounds/game-over.mp3").play();
 				break;	
 			case "winner":
 				new Audio("assets/sounds/winner.mp3").play();

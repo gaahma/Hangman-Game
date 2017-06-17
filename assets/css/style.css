@@ -1,7 +1,11 @@
+/*
+	This is the actual font used on the show, and it wasn't available 
+	on google fonts.  BUT, google fu to the resue
+*/
 @font-face {
     font-family:"baveuse";
     src: url("baveuse.ttf") 
-}
+}	
 
 html, body {
 	height: 100%;
